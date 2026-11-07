@@ -22,7 +22,7 @@ namespace PLATEAU.CityImport.Import.Convert.MaterialConvert
         private readonly ConcurrentBag<string> temporaryTextureFiles = new ConcurrentBag<string>();
         
         /// <summary> 同じテクスチャを何度も書き出さないように覚えておく用です。スレッドセーフに配慮する用です。 </summary>
-        private readonly ConcurrentDictionary<int, string> textureFileCache = new ConcurrentDictionary<int, string>();
+        private readonly ConcurrentDictionary<EntityId, string> textureFileCache = new ConcurrentDictionary<EntityId, string>();
         
         /// <summary>
         /// Unityのマテリアルを、DLLのSubMeshのTexturePathに変換します。
@@ -76,7 +76,7 @@ namespace PLATEAU.CityImport.Import.Convert.MaterialConvert
                 return "";
             }
             
-            int textureInstanceId = tex.GetInstanceID();
+            EntityId textureInstanceId = tex.GetEntityId();
             
             // キャッシュをチェックし、すでに書き出し済みのテクスチャの場合はそれを返す
             if (textureFileCache.TryGetValue(textureInstanceId, out string cachedPath))
